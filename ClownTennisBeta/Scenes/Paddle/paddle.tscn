@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://e6kupyu3uco4"]
+
+[ext_resource type="Script" path="res://Scenes/Paddle/paddle.gd" id="1_rl24r"]
+[ext_resource type="Texture2D" uid="uid://bvw0k21qbjhrb" path="res://Scenes/Clowns/BadClown/BadClown1Resized.png" id="2_ovnl4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_obb0f"]
+size = Vector2(125, 333)
+
+[node name="Paddle" type="RigidBody2D"]
+lock_rotation = true
+script = ExtResource("1_rl24r")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ovnl4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(97, -8.5)
+shape = SubResource("RectangleShape2D_obb0f")
+
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]

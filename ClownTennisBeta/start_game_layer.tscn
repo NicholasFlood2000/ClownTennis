@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://c03qxdns27cqd"]
+
+[sub_resource type="GDScript" id="GDScript_0bgcf"]
+script/source = "extends CanvasLayer
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+#hhh
+"
+
+[node name="StartGameLayer" type="CanvasLayer"]
+script = SubResource("GDScript_0bgcf")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_right = 6.0
+offset_bottom = -458.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer"]
+modulate = Color(0.482353, 0.992157, 0.890196, 1)
+layout_mode = 2
+
+[node name="GameStartLabel" type="Label" parent="PanelContainer/CenterContainer"]
+layout_mode = 2
+text = "THIS IS A TEST"

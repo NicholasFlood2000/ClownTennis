@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0nikfdhs05lv"]
+
+[ext_resource type="Script" path="res://Scenes/PauseScreen.gd" id="1_6siuh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gfmc"]
+bg_color = Color(0.466667, 0.619608, 0.745098, 1)
+
+[node name="PauseMenu" type="CanvasLayer"]
+process_mode = 2
+layer = 2
+script = ExtResource("1_6siuh")
+
+[node name="PauseMenuContainer" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 388.0
+offset_top = 222.0
+offset_right = -326.0
+offset_bottom = -234.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4gfmc")
+
+[node name="CenterContainer" type="CenterContainer" parent="PauseMenuContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="PauseMenuContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PauseMenuContainer/CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="OptionRows" type="VBoxContainer" parent="PauseMenuContainer/CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="PauseLabel" type="Label" parent="PauseMenuContainer/CenterContainer/PanelContainer/MarginContainer/OptionRows"]
+layout_mode = 2
+text = "PAUSE MENU"
+
+[node name="HSeparator" type="HSeparator" parent="PauseMenuContainer/CenterContainer/PanelContainer/MarginContainer/OptionRows"]
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="PauseMenuContainer/CenterContainer/PanelContainer/MarginContainer/OptionRows"]
+layout_mode = 2
+text = "Resume"
+
+[node name="MainMenuButton" type="Button" parent="PauseMenuContainer/CenterContainer/PanelContainer/MarginContainer/OptionRows"]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="QuitButton" type="Button" parent="PauseMenuContainer/CenterContainer/PanelContainer/MarginContainer/OptionRows"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="PauseMenuContainer/CenterContainer/PanelContainer/MarginContainer/OptionRows/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="PauseMenuContainer/CenterContainer/PanelContainer/MarginContainer/OptionRows/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
+[connection signal="pressed" from="PauseMenuContainer/CenterContainer/PanelContainer/MarginContainer/OptionRows/QuitButton" to="." method="_on_quit_button_pressed"]

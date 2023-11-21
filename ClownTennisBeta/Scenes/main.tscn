@@ -1,0 +1,120 @@
+[gd_scene load_steps=14 format=3 uid="uid://das2o8dsafvw3"]
+
+[ext_resource type="Script" path="res://Scenes/main.gd" id="1_jfu1m"]
+[ext_resource type="PackedScene" uid="uid://e6kupyu3uco4" path="res://Scenes/Paddle/paddle.tscn" id="1_jj3h5"]
+[ext_resource type="PackedScene" uid="uid://xsm2nf3lgo0n" path="res://Scenes/wall.tscn" id="2_5t3lj"]
+[ext_resource type="Script" path="res://Scenes/Paddle/enemy_paddle.gd" id="2_orbiw"]
+[ext_resource type="PackedScene" uid="uid://bw5krfpua7k72" path="res://Scenes/Ball/ball.tscn" id="3_w2p8l"]
+[ext_resource type="Texture2D" uid="uid://l8bfcvo0gmyj" path="res://Scenes/Clowns/GoodClown/GoodClown1Resized.png" id="4_osho6"]
+[ext_resource type="Texture2D" uid="uid://1q6kyynj3i76" path="res://PingPongDottedLine.png" id="5_5272g"]
+[ext_resource type="PackedScene" path="res://end_detection_area.tscn" id="6_eta8n"]
+[ext_resource type="PackedScene" uid="uid://csn4ssq1ll01r" path="res://Scenes/UI/ui.tscn" id="8_v8jww"]
+[ext_resource type="PackedScene" uid="uid://c03qxdns27cqd" path="res://start_game_layer.tscn" id="9_1to56"]
+[ext_resource type="Texture2D" uid="uid://balml0c6xnqxg" path="res://Scenes/Clowns/CourtChangeLater.jpg" id="11_86iuh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_be7jh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6en36"]
+size = Vector2(19.7619, 6.93333)
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_jfu1m")
+
+[node name="Paddle" parent="." instance=ExtResource("1_jj3h5")]
+position = Vector2(-1000, 2.08165e-12)
+collision_layer = 3
+collision_mask = 3
+gravity_scale = 2.66454e-15
+
+[node name="CollisionShape2D" parent="Paddle" index="1"]
+position = Vector2(136.5, -8.5)
+
+[node name="EnemyPaddle" parent="." instance=ExtResource("1_jj3h5")]
+position = Vector2(1000, 0)
+collision_layer = 3
+collision_mask = 3
+gravity_scale = 2.66454e-15
+script = ExtResource("2_orbiw")
+
+[node name="Sprite2D" parent="EnemyPaddle" index="0"]
+texture = ExtResource("4_osho6")
+flip_h = true
+
+[node name="CollisionShape2D" parent="EnemyPaddle" index="1"]
+position = Vector2(-138.5, -8.5)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(2.08165e-12, 2.08165e-12)
+zoom = Vector2(0.4, 0.4)
+
+[node name="Walls" type="Node" parent="."]
+
+[node name="TopWall" parent="Walls" instance=ExtResource("2_5t3lj")]
+position = Vector2(10, -600)
+rotation = 1.5708
+scale = Vector2(1, 9)
+
+[node name="BottomWall" parent="Walls" instance=ExtResource("2_5t3lj")]
+position = Vector2(10, 600)
+rotation = 1.5708
+scale = Vector2(1, 9)
+
+[node name="Net" parent="Walls" instance=ExtResource("2_5t3lj")]
+visible = false
+position = Vector2(3, 193)
+scale = Vector2(3, 26.966)
+collision_layer = 2
+collision_mask = 2
+
+[node name="Ball" parent="." groups=["ball"] instance=ExtResource("3_w2p8l")]
+
+[node name="Line2D" type="Line2D" parent="."]
+texture_repeat = 2
+position = Vector2(-1, -614)
+points = PackedVector2Array(0, 0, 0, 1200)
+width = 32.0
+texture = ExtResource("5_5272g")
+texture_mode = 1
+
+[node name="LeftEdge" parent="." instance=ExtResource("6_eta8n")]
+position = Vector2(-1142, 0)
+collision_layer = 3
+collision_mask = 3
+
+[node name="leftEdgeWall" type="StaticBody2D" parent="LeftEdge"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftEdge/leftEdgeWall"]
+shape = SubResource("RectangleShape2D_be7jh")
+
+[node name="RightEdge" parent="." instance=ExtResource("6_eta8n")]
+position = Vector2(1143, 45)
+
+[node name="rightEdgeWall" type="StaticBody2D" parent="RightEdge"]
+scale = Vector2(3, 3)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightEdge/rightEdgeWall"]
+position = Vector2(-0.119049, 0.128572)
+shape = SubResource("RectangleShape2D_6en36")
+
+[node name="UI" parent="." instance=ExtResource("8_v8jww")]
+
+[node name="StartGameLayer" parent="." instance=ExtResource("9_1to56")]
+visible = false
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+offset_left = -1514.0
+offset_top = -814.0
+offset_right = 1503.0
+offset_bottom = 827.0
+texture = ExtResource("11_86iuh")
+
+[connection signal="point_scored" from="LeftEdge" to="." method="enemy_scored"]
+[connection signal="point_scored" from="RightEdge" to="." method="player_scored"]
+
+[editable path="Paddle"]
+[editable path="EnemyPaddle"]
