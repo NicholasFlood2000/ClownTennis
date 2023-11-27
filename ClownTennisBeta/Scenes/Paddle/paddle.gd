@@ -10,10 +10,10 @@ func _physics_process(_delta):
 		movement = Vector2.DOWN
 	#add left and right, need to change code so that horizontal and 
 	#vertical inputs are accepted at same time
-	elif Input.is_action_pressed("player1_move_left"):
-		movement = Vector2.LEFT
+	if Input.is_action_pressed("player1_move_left"):
+		movement += Vector2.LEFT
 	elif Input.is_action_pressed("player1_move_right"):
-		movement = Vector2.RIGHT
+		movement += Vector2.RIGHT
 	linear_velocity = movement * speed;
 
 

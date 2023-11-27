@@ -1,16 +1,25 @@
-[gd_scene load_steps=14 format=3 uid="uid://das2o8dsafvw3"]
+[gd_scene load_steps=23 format=3 uid="uid://das2o8dsafvw3"]
 
 [ext_resource type="Script" path="res://Scenes/main.gd" id="1_jfu1m"]
 [ext_resource type="PackedScene" uid="uid://e6kupyu3uco4" path="res://Scenes/Paddle/paddle.tscn" id="1_jj3h5"]
 [ext_resource type="PackedScene" uid="uid://xsm2nf3lgo0n" path="res://Scenes/wall.tscn" id="2_5t3lj"]
 [ext_resource type="Script" path="res://Scenes/Paddle/enemy_paddle.gd" id="2_orbiw"]
 [ext_resource type="PackedScene" uid="uid://bw5krfpua7k72" path="res://Scenes/Ball/ball.tscn" id="3_w2p8l"]
-[ext_resource type="Texture2D" uid="uid://l8bfcvo0gmyj" path="res://Scenes/Clowns/GoodClown/GoodClown1Resized.png" id="4_osho6"]
+[ext_resource type="SpriteFrames" uid="uid://mmp0ka8aikof" path="res://Scenes/Paddle/HapE.tres" id="5_1ahy4"]
 [ext_resource type="Texture2D" uid="uid://1q6kyynj3i76" path="res://PingPongDottedLine.png" id="5_5272g"]
-[ext_resource type="PackedScene" path="res://end_detection_area.tscn" id="6_eta8n"]
+[ext_resource type="PackedScene" uid="uid://vvttoin4ngxq" path="res://end_detection_area.tscn" id="6_eta8n"]
 [ext_resource type="PackedScene" uid="uid://csn4ssq1ll01r" path="res://Scenes/UI/ui.tscn" id="8_v8jww"]
 [ext_resource type="PackedScene" uid="uid://c03qxdns27cqd" path="res://start_game_layer.tscn" id="9_1to56"]
 [ext_resource type="Texture2D" uid="uid://balml0c6xnqxg" path="res://Scenes/Clowns/CourtChangeLater.jpg" id="11_86iuh"]
+[ext_resource type="PackedScene" uid="uid://bf05ifibh0xmp" path="res://WinScreen.tscn" id="13_ogtlq"]
+[ext_resource type="AudioStream" uid="uid://40tmi2fvyprl" path="res://Sounds/ClownPark.mp3" id="15_0iwl7"]
+[ext_resource type="AudioStream" uid="uid://dxwwvlkrx2cyu" path="res://Sounds/HapEScore.mp3" id="16_ecbxc"]
+[ext_resource type="AudioStream" uid="uid://c1ye68ecl7njf" path="res://Sounds/HapEFail.mp3" id="17_no2ha"]
+[ext_resource type="AudioStream" uid="uid://cnvo2pg1pkmls" path="res://Sounds/HapEVictory.mp3" id="18_ibcvj"]
+[ext_resource type="AudioStream" uid="uid://bjel1a0n1vt3d" path="res://Sounds/ScareEScore.mp3" id="19_frjip"]
+[ext_resource type="AudioStream" uid="uid://co08lmxv8cqmn" path="res://Sounds/ScareEFail.mp3" id="20_7x88v"]
+[ext_resource type="AudioStream" uid="uid://du2ouv6an4lth" path="res://Sounds/Hit.mp3" id="20_kaxax"]
+[ext_resource type="AudioStream" uid="uid://dxjrfq8jtvpu7" path="res://Sounds/ScareEVictory.mp3" id="21_4bcdl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_be7jh"]
 
@@ -26,8 +35,14 @@ collision_layer = 3
 collision_mask = 3
 gravity_scale = 2.66454e-15
 
-[node name="CollisionShape2D" parent="Paddle" index="1"]
-position = Vector2(136.5, -8.5)
+[node name="CollisionShape2D" parent="Paddle" index="0"]
+position = Vector2(64, -1)
+scale = Vector2(0.5, 0.5)
+
+[node name="AnimatedSprite2D" parent="Paddle" index="1"]
+scale = Vector2(0.108, 0.108)
+frame = 0
+frame_progress = 0.670126
 
 [node name="EnemyPaddle" parent="." instance=ExtResource("1_jj3h5")]
 position = Vector2(1000, 0)
@@ -36,12 +51,16 @@ collision_mask = 3
 gravity_scale = 2.66454e-15
 script = ExtResource("2_orbiw")
 
-[node name="Sprite2D" parent="EnemyPaddle" index="0"]
-texture = ExtResource("4_osho6")
-flip_h = true
+[node name="CollisionShape2D" parent="EnemyPaddle" index="0"]
+position = Vector2(-66, -2)
+scale = Vector2(0.5, 0.5)
 
-[node name="CollisionShape2D" parent="EnemyPaddle" index="1"]
-position = Vector2(-138.5, -8.5)
+[node name="AnimatedSprite2D" parent="EnemyPaddle" index="1"]
+rotation = 3.14159
+scale = Vector2(0.108, 0.108)
+sprite_frames = ExtResource("5_1ahy4")
+frame = 3
+frame_progress = 0.608543
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(2.08165e-12, 2.08165e-12)
@@ -50,12 +69,14 @@ zoom = Vector2(0.4, 0.4)
 [node name="Walls" type="Node" parent="."]
 
 [node name="TopWall" parent="Walls" instance=ExtResource("2_5t3lj")]
-position = Vector2(10, -600)
+visible = false
+position = Vector2(15, -514)
 rotation = 1.5708
 scale = Vector2(1, 9)
 
 [node name="BottomWall" parent="Walls" instance=ExtResource("2_5t3lj")]
-position = Vector2(10, 600)
+visible = false
+position = Vector2(14, 373)
 rotation = 1.5708
 scale = Vector2(1, 9)
 
@@ -66,9 +87,11 @@ scale = Vector2(3, 26.966)
 collision_layer = 2
 collision_mask = 2
 
-[node name="Ball" parent="." groups=["ball"] instance=ExtResource("3_w2p8l")]
+[node name="Ball" parent="." node_paths=PackedStringArray("Hit") groups=["ball"] instance=ExtResource("3_w2p8l")]
+Hit = NodePath("../Audio/BallHit")
 
 [node name="Line2D" type="Line2D" parent="."]
+visible = false
 texture_repeat = 2
 position = Vector2(-1, -614)
 points = PackedVector2Array(0, 0, 0, 1200)
@@ -101,6 +124,7 @@ position = Vector2(-0.119049, 0.128572)
 shape = SubResource("RectangleShape2D_6en36")
 
 [node name="UI" parent="." instance=ExtResource("8_v8jww")]
+layer = 0
 
 [node name="StartGameLayer" parent="." instance=ExtResource("9_1to56")]
 visible = false
@@ -113,8 +137,47 @@ offset_right = 1503.0
 offset_bottom = 827.0
 texture = ExtResource("11_86iuh")
 
+[node name="Menu" parent="." instance=ExtResource("13_ogtlq")]
+visible = false
+z_index = 3
+offset_left = -505.0
+offset_top = -214.0
+offset_right = -505.0
+offset_bottom = -214.0
+scale = Vector2(3, 3)
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="GameTheme" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("15_0iwl7")
+autoplay = true
+
+[node name="HapEScore" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("16_ecbxc")
+
+[node name="HapEFail" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("17_no2ha")
+
+[node name="HapEVictory" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("18_ibcvj")
+
+[node name="ScareEScore" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("19_frjip")
+
+[node name="ScareEFail" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("20_7x88v")
+
+[node name="ScareEVictory" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("21_4bcdl")
+
+[node name="BallHit" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("20_kaxax")
+
 [connection signal="point_scored" from="LeftEdge" to="." method="enemy_scored"]
 [connection signal="point_scored" from="RightEdge" to="." method="player_scored"]
+[connection signal="pressed" from="Menu/Rematch/RematchButton" to="." method="_on_rematch_button_pressed"]
 
 [editable path="Paddle"]
 [editable path="EnemyPaddle"]
+[editable path="Menu"]
+[editable path="Menu/Rematch"]

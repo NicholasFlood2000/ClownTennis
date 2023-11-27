@@ -13,11 +13,11 @@ func _ready():
 func update_enemy_points(points: int):
 	enemy_points_label.text =  "%d" % points
 	
-func update_player_point(points: int):
+func update_player_points(points: int):
 	player_points_label.text = "%d" % points
 
 func update_player_turn():
-	%playerServe.show()
+	#%playerServe.show()
 	#this needs to be implemented further
 	#I want the player serve layer to show who is serving at 
 	#the beginning of each round, and dissapear when the round begins

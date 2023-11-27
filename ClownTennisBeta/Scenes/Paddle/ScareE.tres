@@ -1,0 +1,25 @@
+[gd_resource type="SpriteFrames" load_steps=4 format=3 uid="uid://bhcocugt7ctfh"]
+
+[ext_resource type="Texture2D" uid="uid://djx1ia84y5syq" path="res://Scenes/Clowns/Clowns/ScareE1.png" id="1_h4gi0"]
+[ext_resource type="Texture2D" uid="uid://c6htv5f4aefwd" path="res://Scenes/Clowns/Clowns/ScareE2.png" id="2_y3pbh"]
+[ext_resource type="Texture2D" uid="uid://o8ff6k2h17f1" path="res://Scenes/Clowns/Clowns/ScareE3.png" id="3_vn26t"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_h4gi0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_y3pbh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_vn26t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_y3pbh")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]

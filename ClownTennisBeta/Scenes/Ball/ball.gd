@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 class_name Ball
 
+@export var Hit = Node
+
 @export var INITIAL_BALL_SPEED = 20
 
 @export var speed_multiplier = 1.02
@@ -15,6 +17,11 @@ func _ready():
 func _physics_process(delta):
 	var collision = move_and_collide(velocity * ball_speed * delta)
 	
+	if(collision and (collision.get_collider().get_node("AnimatedSprite2D")) != null):
+		var animation = collision.get_collider().get_node("AnimatedSprite2D")
+		animation.play()
+		Hit.play()
+		
 	if(collision):
 	# change direction
 		velocity =  velocity.bounce(collision.get_normal()) * speed_multiplier
